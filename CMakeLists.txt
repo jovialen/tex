@@ -31,4 +31,7 @@ add_library(tex::shared ALIAS tex_shared)
 if (TEX_BUILD_EXAMPLES)
 	add_executable(hello_tex "examples/hello_tex.cpp")
 	target_link_libraries(hello_tex PRIVATE tex::tex)
+
+	add_executable(multiwin "examples/multiwin.cpp")
+	target_link_libraries(multiwin PRIVATE tex::tex)
 endif()
