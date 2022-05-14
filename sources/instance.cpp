@@ -6,7 +6,7 @@
 
 namespace tex
 {
-	void init()
+	TEX_DLL void init()
 	{
 		if (!glfwInit())
 		{
@@ -14,7 +14,7 @@ namespace tex
 		}
 	}
 
-	void quit()
+	TEX_DLL void quit()
 	{
 		glfwTerminate();
 	}

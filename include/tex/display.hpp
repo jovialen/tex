@@ -4,9 +4,11 @@
 
 #include <GLFW/glfw3.h>
 
+#include "tex/export.hpp"
+
 namespace tex
 {
-	struct display
+	struct TEX_DLL display
 	{
 		GLFWwindow *window;
 
@@ -16,7 +18,7 @@ namespace tex
 
 	namespace backend
 	{
-		void display_next_frame(const display &display);
-		bool display_should_close(const display &display);
+		TEX_DLL void display_next_frame(const display &display);
+		TEX_DLL bool display_should_close(const display &display);
 	}
 }

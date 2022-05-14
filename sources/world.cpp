@@ -8,7 +8,7 @@ namespace tex
 
 	}
 
-	bool update(const world &world)
+	TEX_DLL bool update(const world &world)
 	{
 		backend::display_next_frame(world.disp);
 		return !backend::display_should_close(world.disp);

@@ -3,15 +3,16 @@
 #include <string>
 
 #include "tex/display.hpp"
+#include "tex/export.hpp"
 
 namespace tex
 {
-	struct world
+	struct TEX_DLL world
 	{
 		display disp;
 
 		world(const std::string &name = "Tex");
 	};
 
-	bool update(const world &world);
+	TEX_DLL bool update(const world &world);
 }
