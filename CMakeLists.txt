@@ -32,6 +32,9 @@ if (TEX_BUILD_EXAMPLES)
 	add_executable(hello_tex "examples/hello_tex.cpp")
 	target_link_libraries(hello_tex PRIVATE tex::tex)
 
+	add_executable(tex_dll "examples/hello_tex.cpp")
+	target_link_libraries(tex_dll PRIVATE tex::shared)
+
 	add_executable(multiwin "examples/multiwin.cpp")
 	target_link_libraries(multiwin PRIVATE tex::tex)
 endif()
