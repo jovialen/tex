@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 project(tex LANGUAGES CXX C)
 
+add_subdirectory("dependencies/glfw")
+
 option(TEX_BUILD_EXAMPLES "Build the examples for Tex" TRUE)
 
-set(TEX_SOURCES "sources/tex.cpp" "sources/instance.cpp" "sources/world.cpp")
+set(TEX_SOURCES "sources/tex.cpp"
+	"sources/display.cpp" "sources/instance.cpp" "sources/world.cpp")
 
 add_library(tex_shared SHARED ${TEX_SOURCES})
 add_library(tex_static STATIC ${TEX_SOURCES})
@@ -13,6 +16,9 @@ target_include_directories(tex_static PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/includ
 
 target_compile_definitions(tex_shared PUBLIC __tex_dll)
 target_compile_definitions(tex_shared PRIVATE __tex_build_dll)
+
+target_link_libraries(tex_shared PUBLIC glfw)
+target_link_libraries(tex_static PUBLIC glfw)
 
 add_library(tex ALIAS tex_static)
 add_library(tex::tex ALIAS tex_static)
