@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 project(tex LANGUAGES CXX C)
 
+add_subdirectory("dependencies/glad/cmake")
 add_subdirectory("dependencies/glfw")
+
+GLAD_ADD_LIBRARY(glad_opengl_46_core REPRODUCIBLE MX API gl:core=4.6)
 
 option(TEX_BUILD_EXAMPLES "Build the examples for Tex" TRUE)
 
@@ -17,8 +20,8 @@ target_include_directories(tex_static PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/includ
 target_compile_definitions(tex_shared PUBLIC __tex_dll)
 target_compile_definitions(tex_shared PRIVATE __tex_build_dll)
 
-target_link_libraries(tex_shared PUBLIC glfw)
-target_link_libraries(tex_static PUBLIC glfw)
+target_link_libraries(tex_shared PUBLIC glfw glad_opengl_46_core)
+target_link_libraries(tex_static PUBLIC glfw glad_opengl_46_core)
 
 add_library(tex ALIAS tex_static)
 add_library(tex::tex ALIAS tex_static)

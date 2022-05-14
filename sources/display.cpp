@@ -11,6 +11,14 @@ namespace tex
 		{
 			TEX_ERROR("failed to create window");
 		}
+
+		glfwMakeContextCurrent(window);
+
+		gl_context = std::make_unique<GladGLContext>();
+		if (!gladLoadGLContext(gl_context.get(), (GLADloadfunc) glfwGetProcAddress))
+		{
+			TEX_ERROR("failed to load opengl");
+		}
 	}
 
 	display::~display()
@@ -20,6 +28,11 @@ namespace tex
 
 	namespace backend
 	{
+		TEX_DLL void activate_context(const display &display)
+		{
+			glfwMakeContextCurrent(display.window);
+		}
+
 		TEX_DLL void display_next_frame(const display &display)
 		{
 			glfwSwapBuffers(display.window);
