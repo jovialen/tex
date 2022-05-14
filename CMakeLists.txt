@@ -3,7 +3,7 @@ project(tex LANGUAGES CXX C)
 
 option(TEX_BUILD_EXAMPLES "Build the examples for Tex" TRUE)
 
-set(TEX_SOURCES "sources/tex.cpp")
+set(TEX_SOURCES "sources/tex.cpp" "sources/instance.cpp")
 
 add_library(tex_shared SHARED ${TEX_SOURCES})
 add_library(tex_static STATIC ${TEX_SOURCES})
