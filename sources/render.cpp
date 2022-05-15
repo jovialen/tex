@@ -22,6 +22,18 @@ namespace tex
 			1, 3, 2,
 		};
 
+		static const char *vertex_source = "#version 330 core\n"
+			"layout(location = 0) in vec3 i_pos;"
+			"void main() {"
+			"	gl_Position = vec4(i_pos, 1.0);"
+			"}";
+
+		static const char *fragment_source = "#version 330 core\n"
+			"out vec4 o_col;"
+			"void main() {"
+			"	o_col = vec4(0.0, 0.0, 0.0, 1.0);"
+			"}";
+
 		render_data::render_data(const display &display)
 		{
 			activate_context(display);
@@ -48,6 +60,41 @@ namespace tex
 
 			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, 0, 3 * sizeof(float));
 			gl->VertexArrayElementBuffer(quad.vao, quad.ebo);
+
+			pip.program = gl->CreateProgram();
+
+			GLuint vs, fs;
+			GLint status;
+			vs = gl->CreateShader(GL_VERTEX_SHADER);
+			fs = gl->CreateShader(GL_FRAGMENT_SHADER);
+
+			gl->ShaderSource(vs, 1, &vertex_source, nullptr);
+			gl->CompileShader(vs);
+
+			gl->GetShaderiv(vs, GL_COMPILE_STATUS, &status);
+			if (!status)
+			{
+				TEX_ERROR("failed to compile vertex shader: \n");
+			}
+
+			gl->ShaderSource(fs, 1, &fragment_source, nullptr);
+			gl->CompileShader(fs);
+
+			gl->GetShaderiv(fs, GL_COMPILE_STATUS, &status);
+			if (!status)
+			{
+				TEX_ERROR("failed to compile fragment shader: \n");
+			}
+
+			gl->AttachShader(pip.program, vs);
+			gl->AttachShader(pip.program, fs);
+			gl->LinkProgram(pip.program);
+
+			gl->GetProgramiv(pip.program, GL_LINK_STATUS, &status);
+			if (!status)
+			{
+				TEX_ERROR("failed to link shader program: \n");
+			}
 		}
 
 		render_data::~render_data()
@@ -64,9 +111,10 @@ namespace tex
 			activate_context(world.disp);
 
 			auto &gl = world.rd.gl_context;
-			gl->ClearColor(1, 1, 0, 1);
+			gl->ClearColor(1, 1, 1, 1);
 			gl->Clear(GL_COLOR_BUFFER_BIT);
 
+			gl->UseProgram(world.rd.pip.program);
 			gl->BindVertexArray(world.rd.quad.vao);
 			gl->DrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		}

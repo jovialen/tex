@@ -20,10 +20,16 @@ namespace tex
 			GLuint ebo;
 		};
 
+		struct TEX_DLL pipeline
+		{
+			GLuint program;
+		};
+
 		struct TEX_DLL render_data
 		{
 			std::unique_ptr<GladGLContext> gl_context;
 
+			pipeline pip;
 			mesh quad;
 
 			render_data(const display &display);
