@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include "tex/export.hpp"
-#include "tex/render.hpp"
+#include "tex/types.hpp"
 
 namespace tex
 {
@@ -24,5 +24,8 @@ namespace tex
 		TEX_DLL void activate_context(const display &display);
 		TEX_DLL void display_next_frame(const display &display);
 		TEX_DLL bool display_should_close(const display &display);
+
+		TEX_DLL ivec2 display_get_window_size(const display &display);
+		TEX_DLL ivec2 display_get_framebuffer_size(const display &display);
 	}
 }

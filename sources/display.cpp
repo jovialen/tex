@@ -35,5 +35,19 @@ namespace tex
 			glfwPollEvents();
 			return glfwWindowShouldClose(display.window);
 		}
+
+		TEX_DLL ivec2 display_get_window_size(const display &display)
+		{
+			ivec2 size;
+			glfwGetWindowSize(display.window, &size.x, &size.y);
+			return size;
+		}
+
+		TEX_DLL ivec2 display_get_framebuffer_size(const display &display)
+		{
+			ivec2 size;
+			glfwGetFramebufferSize(display.window, &size.x, &size.y);
+			return size;
+		}
 	}
 }

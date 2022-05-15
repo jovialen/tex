@@ -110,7 +110,11 @@ namespace tex
 		{
 			activate_context(world.disp);
 
+			ivec2 size = backend::display_get_window_size(world.disp);
+
 			auto &gl = world.rd.gl_context;
+
+			gl->Viewport(0, 0, size.x, size.y);
 			gl->ClearColor(1, 1, 1, 1);
 			gl->Clear(GL_COLOR_BUFFER_BIT);
 
