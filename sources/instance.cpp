@@ -6,16 +6,33 @@
 
 namespace tex
 {
-	TEX_DLL void init()
+	namespace backend
 	{
-		if (!glfwInit())
-		{
-			TEX_ERROR("failed to initialize glfw");
-		}
-	}
+		bool instance::initialized = false;
+		int instance::instances = 0;
 
-	TEX_DLL void quit()
-	{
-		glfwTerminate();
+		instance::instance()
+		{
+			instances++;
+			if (instances > 0 && !initialized)
+			{
+				if (!glfwInit())
+				{
+					TEX_ERROR("failed to initialize glfw");
+				}
+				initialized = true;
+			}
+		}
+
+		instance::~instance()
+		{
+			instances--;
+			if (instances <= 0 && initialized)
+			{
+				instances = 0;
+				initialized = false;
+				glfwTerminate();
+			}
+		}
 	}
 }

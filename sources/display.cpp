@@ -11,14 +11,6 @@ namespace tex
 		{
 			TEX_ERROR("failed to create window");
 		}
-
-		glfwMakeContextCurrent(window);
-
-		gl_context = std::make_unique<GladGLContext>();
-		if (!gladLoadGLContext(gl_context.get(), (GLADloadfunc) glfwGetProcAddress))
-		{
-			TEX_ERROR("failed to load opengl");
-		}
 	}
 
 	display::~display()

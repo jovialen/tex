@@ -1,9 +1,20 @@
 #pragma once
 
+#include <memory>
+
 #include "tex/export.hpp"
 
 namespace tex
 {
-	TEX_DLL void init();
-	TEX_DLL void quit();
+	namespace backend
+	{
+		struct TEX_DLL instance
+		{
+			static bool initialized;
+			static int instances;
+
+			instance();
+			~instance();
+		};
+	}
 }

@@ -7,13 +7,13 @@
 #include <GLFW/glfw3.h>
 
 #include "tex/export.hpp"
+#include "tex/render.hpp"
 
 namespace tex
 {
 	struct TEX_DLL display
 	{
 		GLFWwindow *window;
-		std::unique_ptr<GladGLContext> gl_context;
 
 		display(const std::string &title);
 		~display();

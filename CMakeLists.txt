@@ -9,7 +9,8 @@ GLAD_ADD_LIBRARY(glad_opengl_46_core REPRODUCIBLE MX API gl:core=4.6)
 option(TEX_BUILD_EXAMPLES "Build the examples for Tex" TRUE)
 
 set(TEX_SOURCES "sources/tex.cpp"
-	"sources/display.cpp" "sources/instance.cpp" "sources/world.cpp")
+	"sources/display.cpp" "sources/instance.cpp"
+	"sources/render.cpp" "sources/world.cpp")
 
 add_library(tex_shared SHARED ${TEX_SOURCES})
 add_library(tex_static STATIC ${TEX_SOURCES})

@@ -2,8 +2,6 @@
 
 int main(int argc, char *argv[])
 {
-	tex::init();
-
 	tex::world world1("1");
 	tex::world world2("2");
 
@@ -11,6 +9,4 @@ int main(int argc, char *argv[])
 	{
 		
 	}
-
-	tex::quit();
 }
