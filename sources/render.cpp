@@ -67,14 +67,13 @@ namespace tex
 
 			gl->EnableVertexArrayAttrib(quad.vao, 0);
 			gl->VertexArrayAttribBinding(quad.vao, 0, 0);
-			gl->VertexArrayAttribFormat(quad.vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
+			gl->VertexArrayAttribFormat(quad.vao, 0, 3, GL_FLOAT, GL_FALSE, offsetof(vertex, position));
 
 			gl->EnableVertexArrayAttrib(quad.vao, 1);
-			gl->VertexArrayAttribBinding(quad.vao, 1, 1);
-			gl->VertexArrayAttribFormat(quad.vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
+			gl->VertexArrayAttribBinding(quad.vao, 1, 0);
+			gl->VertexArrayAttribFormat(quad.vao, 1, 2, GL_FLOAT, GL_FALSE, offsetof(vertex, uv));
 
-			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, offsetof(vertex, position), sizeof(vertex));
-			gl->VertexArrayVertexBuffer(quad.vao, 1, quad.vbo, offsetof(vertex, uv), sizeof(vertex));
+			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, 0, sizeof(vertex));
 			gl->VertexArrayElementBuffer(quad.vao, quad.ebo);
 
 			pip.program = gl->CreateProgram();
