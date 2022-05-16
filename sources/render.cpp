@@ -130,7 +130,7 @@ namespace tex
 			auto &gl = world.rd.gl_context;
 
 			gl->Viewport(0, 0, size.x, size.y);
-			gl->ClearColor(1, 1, 1, 1);
+			gl->ClearColor(0.2f, 0.2f, 0.2f, 1);
 			gl->Clear(GL_COLOR_BUFFER_BIT);
 
 			gl->UseProgram(world.rd.pip.program);
