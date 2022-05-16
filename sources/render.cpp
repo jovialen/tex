@@ -4,17 +4,24 @@
 
 #include "tex/display.hpp"
 #include "tex/error.hpp"
+#include "tex/types.hpp"
 #include "tex/world.hpp"
 
 namespace tex
 {
 	namespace backend
 	{
-		static const float vertices[] = {
-			-0.5f,  0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
+		struct vertex
+		{
+			vec3 position;
+			vec2 uv;
+		};
+
+		static const vertex vertices[] = {
+			{ { -0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f } },
+			{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
+			{ {  0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f } },
+			{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
 		};
 
 		static const int indices[] = {
@@ -24,14 +31,18 @@ namespace tex
 
 		static const char *vertex_source = "#version 330 core\n"
 			"layout(location = 0) in vec3 i_pos;"
+			"layout(location = 1) in vec2 i_uv;"
+			"out vec2 v_uv;"
 			"void main() {"
 			"	gl_Position = vec4(i_pos, 1.0);"
+			"	v_uv = i_uv;"
 			"}";
 
 		static const char *fragment_source = "#version 330 core\n"
+			"in vec2 v_uv;"
 			"out vec4 o_col;"
 			"void main() {"
-			"	o_col = vec4(0.0, 0.0, 0.0, 1.0);"
+			"	o_col = vec4(v_uv, 0.0, 1.0);"
 			"}";
 
 		render_data::render_data(const display &display)
@@ -58,7 +69,12 @@ namespace tex
 			gl->VertexArrayAttribBinding(quad.vao, 0, 0);
 			gl->VertexArrayAttribFormat(quad.vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
 
-			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, 0, 3 * sizeof(float));
+			gl->EnableVertexArrayAttrib(quad.vao, 1);
+			gl->VertexArrayAttribBinding(quad.vao, 1, 1);
+			gl->VertexArrayAttribFormat(quad.vao, 1, 2, GL_FLOAT, GL_FALSE, 0);
+
+			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, offsetof(vertex, position), sizeof(vertex));
+			gl->VertexArrayVertexBuffer(quad.vao, 1, quad.vbo, offsetof(vertex, uv), sizeof(vertex));
 			gl->VertexArrayElementBuffer(quad.vao, quad.ebo);
 
 			pip.program = gl->CreateProgram();
