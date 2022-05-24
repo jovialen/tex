@@ -13,15 +13,15 @@ namespace tex
 	{
 		struct vertex
 		{
-			vec3 position;
+			vec2 position;
 			vec2 uv;
 		};
 
 		static const vertex vertices[] = {
-			{ { -0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f } },
-			{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
-			{ {  0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f } },
-			{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
+			{ { -1.0f,  1.0f }, { 0.0f, 1.0f } },
+			{ { -1.0f, -1.0f }, { 0.0f, 0.0f } },
+			{ {  1.0f,  1.0f }, { 1.0f, 1.0f } },
+			{ {  1.0f, -1.0f }, { 1.0f, 0.0f } },
 		};
 
 		static const int indices[] = {
@@ -30,11 +30,11 @@ namespace tex
 		};
 
 		static const char *vertex_source = "#version 330 core\n"
-			"layout(location = 0) in vec3 i_pos;"
+			"layout(location = 0) in vec2 i_pos;"
 			"layout(location = 1) in vec2 i_uv;"
 			"out vec2 v_uv;"
 			"void main() {"
-			"	gl_Position = vec4(i_pos, 1.0);"
+			"	gl_Position = vec4(i_pos, 0.0, 1.0);"
 			"	v_uv = i_uv;"
 			"}";
 
@@ -67,7 +67,7 @@ namespace tex
 
 			gl->EnableVertexArrayAttrib(quad.vao, 0);
 			gl->VertexArrayAttribBinding(quad.vao, 0, 0);
-			gl->VertexArrayAttribFormat(quad.vao, 0, 3, GL_FLOAT, GL_FALSE, offsetof(vertex, position));
+			gl->VertexArrayAttribFormat(quad.vao, 0, 2, GL_FLOAT, GL_FALSE, offsetof(vertex, position));
 
 			gl->EnableVertexArrayAttrib(quad.vao, 1);
 			gl->VertexArrayAttribBinding(quad.vao, 1, 0);
