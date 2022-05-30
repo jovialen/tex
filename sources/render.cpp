@@ -1,5 +1,7 @@
 #include "tex/render.hpp"
 
+#include <iostream>
+
 #include <GLFW/glfw3.h>
 
 #include "tex/display.hpp"
@@ -13,8 +15,8 @@ namespace tex
 	{
 		struct vertex
 		{
-			vec2 position;
-			vec2 uv;
+			vec2<float> position;
+			vec2<float> uv;
 		};
 
 		static const vertex vertices[] = {
@@ -41,8 +43,9 @@ namespace tex
 		static const char *fragment_source = "#version 330 core\n"
 			"in vec2 v_uv;"
 			"out vec4 o_col;"
+			"uniform sampler2D tex;"
 			"void main() {"
-			"	o_col = vec4(v_uv, 0.0, 1.0);"
+			"	o_col = texture2D(tex, v_uv);"
 			"}";
 
 		render_data::render_data(const display &display)
@@ -75,6 +78,8 @@ namespace tex
 
 			gl->VertexArrayVertexBuffer(quad.vao, 0, quad.vbo, 0, sizeof(vertex));
 			gl->VertexArrayElementBuffer(quad.vao, quad.ebo);
+
+			gl->GenTextures(1, &tex.id);
 
 			pip.program = gl->CreateProgram();
 
@@ -118,6 +123,7 @@ namespace tex
 
 			gl->DeleteBuffers(1, &quad.vbo);
 			gl->DeleteBuffers(1, &quad.ebo);
+			gl->DeleteTextures(1, &tex.id);
 			gl->DeleteVertexArrays(1, &quad.vao);
 		}
 
@@ -125,13 +131,20 @@ namespace tex
 		{
 			activate_context(world.disp);
 
-			ivec2 size = backend::display_get_window_size(world.disp);
+			vec2<int> size = backend::display_get_window_size(world.disp);
 
 			auto &gl = world.rd.gl_context;
 
 			gl->Viewport(0, 0, size.x, size.y);
 			gl->ClearColor(0.2f, 0.2f, 0.2f, 1);
 			gl->Clear(GL_COLOR_BUFFER_BIT);
+
+			gl->TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			gl->TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+			gl->BindTexture(GL_TEXTURE_2D, world.rd.tex.id);
+			gl->TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, world.m.size.x, world.m.size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, world.m.data);
+			gl->GenerateMipmap(GL_TEXTURE_2D);
 
 			gl->UseProgram(world.rd.pip.program);
 			gl->BindVertexArray(world.rd.quad.vao);

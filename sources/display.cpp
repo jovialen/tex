@@ -36,16 +36,16 @@ namespace tex
 			return glfwWindowShouldClose(display.window);
 		}
 
-		TEX_DLL ivec2 display_get_window_size(const display &display)
+		TEX_DLL vec2<int> display_get_window_size(const display &display)
 		{
-			ivec2 size;
+			vec2<int> size;
 			glfwGetWindowSize(display.window, &size.x, &size.y);
 			return size;
 		}
 
-		TEX_DLL ivec2 display_get_framebuffer_size(const display &display)
+		TEX_DLL vec2<int> display_get_framebuffer_size(const display &display)
 		{
-			ivec2 size;
+			vec2<int> size;
 			glfwGetFramebufferSize(display.window, &size.x, &size.y);
 			return size;
 		}

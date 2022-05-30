@@ -4,8 +4,8 @@
 
 namespace tex
 {
-	world::world(const std::string &name)
-		: disp(name), rd(disp)
+	world::world(const std::string &name, tex::vec2<std::size_t> size)
+		: disp(name), m(size), rd(disp)
 	{
 
 	}

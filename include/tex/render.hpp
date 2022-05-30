@@ -25,12 +25,18 @@ namespace tex
 			GLuint program;
 		};
 
+		struct TEX_DLL texture
+		{
+			GLuint id;
+		};
+
 		struct TEX_DLL render_data
 		{
 			std::unique_ptr<GladGLContext> gl_context;
 
 			pipeline pip;
 			mesh quad;
+			texture tex;
 
 			render_data(const display &display);
 			~render_data();

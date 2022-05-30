@@ -25,7 +25,7 @@ namespace tex
 		TEX_DLL void display_next_frame(const display &display);
 		TEX_DLL bool display_should_close(const display &display);
 
-		TEX_DLL ivec2 display_get_window_size(const display &display);
-		TEX_DLL ivec2 display_get_framebuffer_size(const display &display);
+		TEX_DLL vec2<int> display_get_window_size(const display &display);
+		TEX_DLL vec2<int> display_get_framebuffer_size(const display &display);
 	}
 }
