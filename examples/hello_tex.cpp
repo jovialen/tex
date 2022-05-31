@@ -10,11 +10,10 @@ int main(int argc, char *argv[])
 	{
 		tex::process(world, [](tex::world &world, tex::vec2<int> position) {
 			return (tex::vec4<float>) {
-				(float) position.x / (float) world.m.size.x,
-				(float) position.y / (float) world.m.size.y,
+				(float) position.x / (float) tex::size(world).x,
+				(float) position.y / (float) tex::size(world).y,
 				0,
 				1 };
-			//return (tex::vec4<uint8_t>) { (uint8_t) (position.x * 16), (uint8_t) (position.y * 16), 0, 255 };
 		});
 	}
 }

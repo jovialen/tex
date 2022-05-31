@@ -23,6 +23,11 @@ namespace tex
 			position.x < world.m.size.x && position.y < world.m.size.y;
 	}
 
+	TEX_DLL vec2<size_t> size(const world &world)
+	{
+		return world.m.size;
+	}
+
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position)
 	{
 		return world.m.data[backend::get_linear_index(world, position)];
