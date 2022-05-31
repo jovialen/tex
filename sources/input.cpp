@@ -21,6 +21,16 @@ namespace tex
 		return mouse_pos;
 	}
 
+	TEX_DLL bool get_key_down(const world &world, key k)
+	{
+		return glfwGetKey(world.disp.window, (int) k) == GLFW_PRESS;
+	}
+
+	TEX_DLL bool get_key_up(const world &world, key k)
+	{
+		return glfwGetKey(world.disp.window, (int) k) == GLFW_RELEASE;
+	}
+
 	TEX_DLL vec2<int> get_hovered_cell(const world &world)
 	{
 		vec2<double> mouse_pos = get_mouse_position(world);

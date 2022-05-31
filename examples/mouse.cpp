@@ -24,5 +24,10 @@ int main(int argc, char *argv[])
 		{
 			tex::set(world, mouse_cell, (tex::vec4<float>) { 1, 1, 1, 1 });
 		}
+
+		if (tex::get_key_down(world, tex::key::SPACE))
+		{
+			std::fill(tex::begin(world), tex::end(world), (tex::vec4<float>) { 0, 0, 0, 1 });
+		}
 	}
 }
