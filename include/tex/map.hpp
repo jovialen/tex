@@ -30,7 +30,7 @@ namespace tex
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position);
 	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value);
 
-	typedef vec4<float>(*map_op)(world&,vec2<int>);
+	using map_op = std::function<vec4<float>(world&,vec2<int>)>;
 	TEX_DLL void process(world &world, map_op op);
 
 	namespace backend
