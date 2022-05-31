@@ -28,6 +28,16 @@ namespace tex
 		return world.m.size;
 	}
 
+	TEX_DLL vec4<float> *begin(world &world)
+	{
+		return &world.m.data[0];
+	}
+
+	TEX_DLL vec4<float> *end(world &world)
+	{
+		return &world.m.data[world.m.size.x * world.m.size.y];
+	}
+
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position)
 	{
 		return world.m.data[backend::get_linear_index(world, position)];

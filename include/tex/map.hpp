@@ -24,6 +24,9 @@ namespace tex
 	TEX_DLL bool in_bounds(const world &world, vec2<int> position);
 
 	TEX_DLL vec2<size_t> size(const world &world);
+	TEX_DLL vec4<float> *begin(world &world);
+	TEX_DLL vec4<float> *end(world &world);
+
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position);
 	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value);
 
