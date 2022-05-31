@@ -1,7 +1,5 @@
 #include "tex/map.hpp"
 
-#include <cstdlib>
-
 #include "tex/world.hpp"
 
 namespace tex
@@ -9,12 +7,12 @@ namespace tex
 	map::map(vec2<std::size_t> size)
 		: size(size)
 	{
-		data = (vec4<float> *) malloc(size.x * size.y * sizeof(vec4<float>));
+		data = new vec4<float>[size.x * size.y];
 	}
 
 	map::~map()
 	{
-		free(data);
+		delete[] data;
 	}
 
 	TEX_DLL bool in_bounds(const world &world, vec2<int> position)
