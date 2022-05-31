@@ -35,6 +35,6 @@ namespace tex
 
 	namespace backend
 	{
-		int get_linear_index(const world &world, vec2<int> position);
+		TEX_DLL int get_linear_index(const world &world, vec2<int> position);
 	}
 }
