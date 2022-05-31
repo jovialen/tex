@@ -143,7 +143,7 @@ namespace tex
 			gl->TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 			gl->BindTexture(GL_TEXTURE_2D, world.rd.tex.id);
-			gl->TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, world.m.size.x, world.m.size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, world.m.data);
+			gl->TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, world.m.size.x, world.m.size.y, 0, GL_RGBA, GL_FLOAT, world.m.data);
 			gl->GenerateMipmap(GL_TEXTURE_2D);
 
 			gl->UseProgram(world.rd.pip.program);

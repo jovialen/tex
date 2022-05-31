@@ -9,7 +9,7 @@ namespace tex
 	map::map(vec2<std::size_t> size)
 		: size(size)
 	{
-		data = (vec4<uint8_t> *) malloc(size.x * size.y * sizeof(vec4<uint8_t>));
+		data = (vec4<float> *) malloc(size.x * size.y * sizeof(vec4<float>));
 	}
 
 	map::~map()
@@ -23,12 +23,12 @@ namespace tex
 			position.x < world.m.size.x && position.y < world.m.size.y;
 	}
 
-	TEX_DLL vec4<uint8_t> get(const world &world, vec2<int> position)
+	TEX_DLL vec4<float> get(const world &world, vec2<int> position)
 	{
 		return world.m.data[backend::get_linear_index(world, position)];
 	}
 
-	TEX_DLL void set(world &world, vec2<int> position, vec4<uint8_t> value)
+	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value)
 	{
 		world.m.data[backend::get_linear_index(world, position)] = value;
 	}

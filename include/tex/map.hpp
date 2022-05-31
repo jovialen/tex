@@ -14,7 +14,7 @@ namespace tex
 
 	struct TEX_DLL map
 	{
-		vec4<uint8_t> *data;
+		vec4<float> *data;
 		vec2<std::size_t> size;
 
 		map(vec2<std::size_t> size);
@@ -23,10 +23,10 @@ namespace tex
 
 	TEX_DLL bool in_bounds(const world &world, vec2<int> position);
 
-	TEX_DLL vec4<uint8_t> get(const world &world, vec2<int> position);
-	TEX_DLL void set(world &world, vec2<int> position, vec4<uint8_t> value);
+	TEX_DLL vec4<float> get(const world &world, vec2<int> position);
+	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value);
 
-	typedef vec4<uint8_t>(*map_op)(world&,vec2<int>);
+	typedef vec4<float>(*map_op)(world&,vec2<int>);
 	TEX_DLL void process(world &world, map_op op);
 
 	namespace backend
