@@ -9,9 +9,9 @@ GLAD_ADD_LIBRARY(glad_opengl_46_core REPRODUCIBLE MX API gl:core=4.6)
 option(TEX_BUILD_EXAMPLES "Build the examples for Tex" TRUE)
 
 set(TEX_SOURCES "sources/tex.cpp"
-	"sources/display.cpp" "sources/instance.cpp" "sources/map.cpp"
-	"sources/render.cpp" "sources/time.cpp" "sources/types.cpp"
-	"sources/world.cpp")
+	"sources/display.cpp" "sources/input.cpp" "sources/instance.cpp"
+	"sources/map.cpp" "sources/render.cpp" "sources/time.cpp"
+	"sources/types.cpp" "sources/world.cpp")
 
 add_library(tex_shared SHARED ${TEX_SOURCES})
 add_library(tex_static STATIC ${TEX_SOURCES})
@@ -21,6 +21,9 @@ target_include_directories(tex_static PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/includ
 
 target_compile_definitions(tex_shared PUBLIC __tex_dll)
 target_compile_definitions(tex_shared PRIVATE __tex_build_dll)
+
+target_compile_definitions(tex_static PUBLIC GLFW_INCLUDE_NONE)
+target_compile_definitions(tex_shared PUBLIC GLFW_INCLUDE_NONE)
 
 target_link_libraries(tex_shared PUBLIC glfw glad_opengl_46_core)
 target_link_libraries(tex_static PUBLIC glfw glad_opengl_46_core)
@@ -42,4 +45,7 @@ if (TEX_BUILD_EXAMPLES)
 
 	add_executable(interval "examples/interval.cpp")
 	target_link_libraries(interval PRIVATE tex::tex)
+
+	add_executable(mouse "examples/mouse.cpp")
+	target_link_libraries(mouse PRIVATE tex::tex)
 endif()
