@@ -146,9 +146,27 @@ namespace tex
 			gl->TexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, world.m.size.x, world.m.size.y, 0, GL_RGBA, GL_FLOAT, world.m.data);
 			gl->GenerateMipmap(GL_TEXTURE_2D);
 
+			double scale = std::min((double) size.x / (double) world.m.size.x, (double) size.y / (double) world.m.size.y);
+			vec2<double> tex_size = { world.m.size.x * scale, world.m.size.y * scale };
+
+			gl->Viewport((int) ((size.x - tex_size.x) / 2), (int) ((size.y - tex_size.y) / 2),
+				(int) tex_size.x, (int) tex_size.y);
+
 			gl->UseProgram(world.rd.pip.program);
 			gl->BindVertexArray(world.rd.quad.vao);
 			gl->DrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		}
+
+		TEX_DLL vec4<int> get_viewport(const world &world)
+		{
+			activate_context(world.disp);
+
+			auto &gl = world.rd.gl_context;
+
+			GLint viewport[4];
+			gl->GetIntegerv(GL_VIEWPORT, viewport);
+
+			return (vec4<int>) { viewport[0], viewport[1], viewport[2], viewport[3] };
 		}
 	}
 }

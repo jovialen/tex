@@ -5,6 +5,7 @@
 #include <glad/gl.h>
 
 #include "export.hpp"
+#include "types.hpp"
 
 namespace tex
 {
@@ -43,5 +44,7 @@ namespace tex
 		};
 
 		TEX_DLL void render(const world &world);
+
+		TEX_DLL vec4<int> get_viewport(const world &world);
 	}
 }
