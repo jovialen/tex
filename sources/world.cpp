@@ -10,8 +10,9 @@ namespace tex
 
 	}
 
-	TEX_DLL bool update(const world &world)
+	TEX_DLL bool update(world &world)
 	{
+		backend::tick(world.clock);
 		backend::render(world);
 		backend::display_next_frame(world.disp);
 		return !backend::display_should_close(world.disp);
