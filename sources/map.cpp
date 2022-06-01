@@ -60,9 +60,19 @@ namespace tex
 		return &map.data[map.size.x * map.size.y];
 	}
 
-	TEX_DLL map get_map(world &world)
+	TEX_DLL map *get_map(world &world)
 	{
-		return world.m;
+		return &world.m;
+	}
+
+	TEX_DLL tex::vec4<float> *get_map_data(world &world)
+	{
+		return get_map_data(world.m);
+	}
+
+	TEX_DLL tex::vec4<float> *get_map_data(map &map)
+	{
+		return map.data;
 	}
 
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position)

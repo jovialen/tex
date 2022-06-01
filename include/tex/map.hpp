@@ -32,7 +32,10 @@ namespace tex
 	TEX_DLL vec4<float> *begin(map &map);
 	TEX_DLL vec4<float> *end(map &map);
 
-	TEX_DLL map get_map(world &world);
+	TEX_DLL map *get_map(world &world);
+	TEX_DLL tex::vec4<float> *get_map_data(world &world);
+	TEX_DLL tex::vec4<float> *get_map_data(map &map);
+
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position);
 	TEX_DLL vec4<float> get(const map &map,     vec2<int> position);
 	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value);
