@@ -29,6 +29,14 @@ target_compile_definitions(tex_shared PUBLIC GLFW_INCLUDE_NONE)
 target_link_libraries(tex_shared PUBLIC glfw glad_opengl_46_core stb)
 target_link_libraries(tex_static PUBLIC glfw glad_opengl_46_core stb)
 
+set_target_properties(tex_shared PROPERTIES
+	CXX_STANDARD 17
+	CXX_STANDARD_REQUIRED ON)
+
+set_target_properties(tex_static PROPERTIES
+	CXX_STANDARD 17
+	CXX_STANDARD_REQUIRED ON)
+
 add_library(tex ALIAS tex_static)
 add_library(tex::tex ALIAS tex_static)
 add_library(tex::static ALIAS tex_static)
