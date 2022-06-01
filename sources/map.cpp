@@ -21,41 +21,81 @@ namespace tex
 
 	TEX_DLL bool in_bounds(const world &world, vec2<int> position)
 	{
+		return in_bounds(world.m, position);
+	}
+
+	TEX_DLL bool in_bounds(const map &map, vec2<int> position)
+	{
 		return position.x >= 0 && position.y >= 0 &&
-			position.x < world.m.size.x && position.y < world.m.size.y;
+			position.x < map.size.x && position.y < map.size.y;
 	}
 
 	TEX_DLL vec2<size_t> size(const world &world)
 	{
-		return world.m.size;
+		return size(world.m);
+	}
+
+	TEX_DLL vec2<size_t> size(const map &map)
+	{
+		return map.size;
 	}
 
 	TEX_DLL vec4<float> *begin(world &world)
 	{
-		return &world.m.data[0];
+		return begin(world.m);
 	}
 
 	TEX_DLL vec4<float> *end(world &world)
 	{
-		return &world.m.data[world.m.size.x * world.m.size.y];
+		return end(world.m);
+	}
+
+	TEX_DLL vec4<float> *begin(map &map)
+	{
+		return &map.data[0];
+	}
+
+	TEX_DLL vec4<float> *end(map &map)
+	{
+		return &map.data[map.size.x * map.size.y];
+	}
+
+	TEX_DLL map get_map(world &world)
+	{
+		return world.m;
 	}
 
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position)
 	{
-		return world.m.data[backend::get_linear_index(world, position)];
+		return get(world.m, position);
+	}
+
+	TEX_DLL vec4<float> get(const map &map, vec2<int> position)
+	{
+		return map.data[backend::get_linear_index(map, position)];
 	}
 
 	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value)
 	{
-		world.m.data[backend::get_linear_index(world, position)] = value;
+		set(world.m, position, value);
+	}
+
+	TEX_DLL void set(map &map, vec2<int> position, vec4<float> value)
+	{
+		map.data[backend::get_linear_index(map, position)] = value;
 	}
 
 	TEX_DLL void save(world &world, std::filesystem::path output_path)
 	{
-		auto size = tex::size(world);
+		save(world.m, output_path);
+	}
+
+	TEX_DLL void save(map &map, std::filesystem::path output_path)
+	{
+		auto size = tex::size(map);
 
 		tex::vec4<char> *data = new tex::vec4<char>[size.x * size.y];
-		std::transform(tex::begin(world), tex::end(world), data, [](tex::vec4<float> cell) {
+		std::transform(tex::begin(map), tex::end(map), data, [](tex::vec4<float> cell) {
 			return tex::vec4<char>{
 				(char) (255 * cell.r),
 				(char) (255 * cell.g),
@@ -72,6 +112,11 @@ namespace tex
 
 	TEX_DLL void load(world *world, std::filesystem::path input_path)
 	{
+		load(&world->m, input_path);
+	}
+
+	TEX_DLL void load(map *map, std::filesystem::path input_path)
+	{
 		if (!std::filesystem::exists(input_path)) return;
 
 		tex::vec2<int> size;
@@ -80,20 +125,23 @@ namespace tex
 		stbi_set_flip_vertically_on_load(true);
 		unsigned char *data = stbi_load(input_path.filename().c_str(), &size.x, &size.y, &comps, 4);
 
-		if (data == nullptr) return;
-
-		auto world_size = tex::size(*world);
-		if (size.x != world_size.x || size.y != world_size.y)
+		if (data == nullptr)
 		{
-			TEX_ERROR("attempted to load image of different size to world");
+			TEX_ERROR("failed to load image file to world map");
+		}
+
+		auto map_size = tex::size(*map);
+		if (size.x != map_size.x || size.y != map_size.y)
+		{
+			TEX_ERROR("attempted to load image of different size to world map");
 		}
 
 		for (int i = 0; i < size.x * size.y; i++)
 		{
-			world->m.data[i].r = data[i * 4 + 0] / 255.0f;
-			world->m.data[i].g = data[i * 4 + 1] / 255.0f;
-			world->m.data[i].b = data[i * 4 + 2] / 255.0f;
-			world->m.data[i].a = data[i * 4 + 3] / 255.0f;
+			map->data[i].r = data[i * 4 + 0] / 255.0f;
+			map->data[i].g = data[i * 4 + 1] / 255.0f;
+			map->data[i].b = data[i * 4 + 2] / 255.0f;
+			map->data[i].a = data[i * 4 + 3] / 255.0f;
 		}
 
 		stbi_image_free(data);
@@ -101,11 +149,29 @@ namespace tex
 
 	TEX_DLL void process(world &world, map_op op)
 	{
-		for (int x = 0; x < world.m.size.x; x++)
+		process(world.m, op);
+	}
+
+	TEX_DLL void process(map &map, map_op op)
+	{
+		process(map, &map, op);
+	}
+
+	TEX_DLL void process(map &src, map *dst, map_op op)
+	{
+		auto src_size = size(src);
+		auto dst_size = size(*dst);
+
+		if (src_size.x != dst_size.x || src_size.y != dst_size.y)
 		{
-			for (int y = 0; y < world.m.size.y; y++)
+			TEX_ERROR("cannot process source map of different size to destination map");
+		}
+
+		for (int x = 0; x < src.size.x; x++)
+		{
+			for (int y = 0; y < src.size.y; y++)
 			{
-				set(world, { x, y }, op(world, { x, y }));
+				set(*dst, { x, y }, op(src, { x, y }));
 			}
 		}
 	}
@@ -114,7 +180,12 @@ namespace tex
 	{
 		TEX_DLL int get_linear_index(const world &world, vec2<int> position)
 		{
-			return position.y * world.m.size.x + position.x;
+			return get_linear_index(world.m, position);
+		}
+
+		TEX_DLL int get_linear_index(const map &map, vec2<int> position)
+		{
+			return position.y * map.size.x + position.x;
 		}
 	}
 }

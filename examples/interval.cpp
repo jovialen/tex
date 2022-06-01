@@ -18,10 +18,10 @@ int main(int argc, char *argv[])
 			timer = 0;
 			iterations++;
 
-			tex::process(world, [iterations](tex::world &world, tex::vec2<int> position) {
+			tex::process(world, [iterations](tex::map &map, tex::vec2<int> position) {
 				tex::vec4<float> color = {
-					(float) ((position.x - iterations) % tex::size(world).x) / (float) tex::size(world).x,
-					(float) ((position.y - iterations) % tex::size(world).y) / (float) tex::size(world).y,
+					(float) ((position.x - iterations) % tex::size(map).x) / (float) tex::size(map).x,
+					(float) ((position.y - iterations) % tex::size(map).y) / (float) tex::size(map).y,
 					0,
 					1 };
 				return color;

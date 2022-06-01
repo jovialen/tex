@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
 		{
 			running &= tex::update(worlds[i]);
 
-			tex::process(worlds[i], [](tex::world &world, tex::vec2<int> position) {
+			tex::process(worlds[i], [](tex::map &map, tex::vec2<int> position) {
 				tex::vec4<float> color = {
-					(float) position.x / (float) tex::size(world).x,
-					(float) position.y / (float) tex::size(world).y,
+					(float) position.x / (float) tex::size(map).x,
+					(float) position.y / (float) tex::size(map).y,
 					0,
 					1 };
 				return color;
