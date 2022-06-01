@@ -3,6 +3,7 @@ project(tex LANGUAGES CXX C)
 
 add_subdirectory("dependencies/glad/cmake")
 add_subdirectory("dependencies/glfw")
+add_subdirectory("dependencies/stb")
 
 GLAD_ADD_LIBRARY(glad_opengl_46_core REPRODUCIBLE MX API gl:core=4.6)
 
@@ -25,8 +26,8 @@ target_compile_definitions(tex_shared PRIVATE __tex_build_dll)
 target_compile_definitions(tex_static PUBLIC GLFW_INCLUDE_NONE)
 target_compile_definitions(tex_shared PUBLIC GLFW_INCLUDE_NONE)
 
-target_link_libraries(tex_shared PUBLIC glfw glad_opengl_46_core)
-target_link_libraries(tex_static PUBLIC glfw glad_opengl_46_core)
+target_link_libraries(tex_shared PUBLIC glfw glad_opengl_46_core stb)
+target_link_libraries(tex_static PUBLIC glfw glad_opengl_46_core stb)
 
 add_library(tex ALIAS tex_static)
 add_library(tex::tex ALIAS tex_static)
@@ -48,4 +49,7 @@ if (TEX_BUILD_EXAMPLES)
 
 	add_executable(mouse "examples/mouse.cpp")
 	target_link_libraries(mouse PRIVATE tex::tex)
+
+	add_executable(savefile "examples/savefiles.cpp")
+	target_link_libraries(savefile PRIVATE tex::tex)
 endif()
