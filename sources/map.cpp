@@ -128,7 +128,7 @@ namespace tex
 		});
 
 		stbi_flip_vertically_on_write(true);
-		stbi_write_bmp((const char *) output_path.filename().c_str(), size.x, size.y, 4, data);
+		stbi_write_bmp(output_path.string().c_str(), size.x, size.y, 4, data);
 
 		delete[] data;
 	}
@@ -146,7 +146,7 @@ namespace tex
 		int comps;
 
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char *data = stbi_load((const char *) input_path.filename().c_str(), &size.x, &size.y, &comps, 4);
+		unsigned char *data = stbi_load(input_path.string().c_str(), &size.x, &size.y, &comps, 4);
 
 		if (data == nullptr)
 		{
