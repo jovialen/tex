@@ -1,5 +1,7 @@
 #include "tex/map.hpp"
 
+#include <algorithm>
+
 #include <stb_image.h>
 #include <stb_image_write.h>
 
@@ -73,6 +75,17 @@ namespace tex
 	TEX_DLL tex::vec4<float> *get_map_data(map &map)
 	{
 		return map.data;
+	}
+
+	TEX_DLL void swap(world &world, map &map)
+	{
+		swap(world.m, map);
+	}
+
+	TEX_DLL void swap(map &map1, map &map2)
+	{
+		std::swap(map1.data, map2.data);
+		std::swap(map1.size, map2.size);
 	}
 
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position)

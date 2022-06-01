@@ -36,6 +36,8 @@ namespace tex
 	TEX_DLL tex::vec4<float> *get_map_data(world &world);
 	TEX_DLL tex::vec4<float> *get_map_data(map &map);
 
+	TEX_DLL void swap(world &world, map &map);
+	TEX_DLL void swap(map &map1, map &map2);
 	TEX_DLL vec4<float> get(const world &world, vec2<int> position);
 	TEX_DLL vec4<float> get(const map &map,     vec2<int> position);
 	TEX_DLL void set(world &world, vec2<int> position, vec4<float> value);

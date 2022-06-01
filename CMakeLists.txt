@@ -52,4 +52,7 @@ if (TEX_BUILD_EXAMPLES)
 
 	add_executable(savefile "examples/savefiles.cpp")
 	target_link_libraries(savefile PRIVATE tex::tex)
+
+	add_executable(swap "examples/swap_maps.cpp")
+	target_link_libraries(swap PRIVATE tex::tex)
 endif()
